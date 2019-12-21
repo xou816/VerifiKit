@@ -5,12 +5,12 @@ class Should<T>: Constraint, Decodable where T: Decodable {
 
     var context: VerificationContext = .empty
 
-    var pass: () -> Bool {{
+    var pass: () -> Bool {{ [unowned self] in
         self.context.verification.passOne()
         return self.context.verification.passing
     }}
 
-    var fail: (String) -> Bool {{ reason in
+    var fail: (String) -> Bool {{ [unowned self] reason in
         if self.context.strict {
             self.context.verification.failOne(path: self.context.path, reason: reason)
         } else {

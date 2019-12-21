@@ -4,12 +4,12 @@ class Must<T>: Constraint, Decodable where T: Decodable {
     let rule: Rule<T>
     var context: VerificationContext = .empty
 
-    var pass: () -> Bool {{
+    var pass: () -> Bool {{ [unowned self] in
         self.context.verification.passOne()
         return self.context.verification.passing
     }}
 
-    var fail: (String) -> Bool {{ reason in
+    var fail: (String) -> Bool {{ [unowned self] reason in
         self.context.verification.failOne(path: self.context.path, reason: reason)
         return false
     }}
