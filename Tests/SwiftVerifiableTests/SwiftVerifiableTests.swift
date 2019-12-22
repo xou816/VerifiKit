@@ -6,7 +6,7 @@ fileprivate struct Test {
     struct Client: Verifiable {
 
         @Should(.beNotEmptyString)
-        var name: String
+        var name: String?
         
         init() {}
     }

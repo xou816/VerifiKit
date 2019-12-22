@@ -6,7 +6,7 @@ Declarative decodable object validation.
 struct Client: Verifiable {
 
     @Should(.beNotEmptyString)
-    var name: String
+    var name: String?
     
     init() {}
 }
