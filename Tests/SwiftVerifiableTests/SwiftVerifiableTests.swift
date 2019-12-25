@@ -60,14 +60,25 @@ final class SwiftVerifiableTests: XCTestCase {
         rule.assertPasses(for: 2)
         XCTAssertEqual(basket.amount, 2)
     }
+
+    func test_rulesCanBeCombined() {
+        let rule: Rule<String> = .beNotBlankString & .beOfLength(3)
+        rule.assertFails(for: "ab", with: "'ab' is not 3 characters long")
+        rule.assertFails(for: "", with: "Provided string is blank")
+        rule.assertPasses(for: "abc")
+
+        let ruleInverted: Rule<String> = .beOfLength(3) & .beNotBlankString
+        ruleInverted.assertFails(for: "", with: "'' is not 3 characters long")
+
+        let rule2: Rule<String> = .beEmptyString | .beOfLength(3)
+        rule2.assertFails(for: "ab", with: "Provided string is not empty; 'ab' is not 3 characters long")
+        rule2.assertPasses(for: "")
+        rule2.assertPasses(for: "abc")
+    }
     
     func test_hasReasonWhenFailing() {
-        let test = ComplianceTest(pass: {true}, fail: { reason in
-            XCTAssertEqual(reason, "failure reason")
-            return false
-        })
         let rule: Rule<Bool> = .failing(reason: "failure reason")
-        XCTAssertFalse(rule.test(true, test))
+        rule.assertFails(for: true, with: "failure reason")
     }
 
 	func test_validatableAllowsRetrievingRules() {
@@ -93,7 +104,7 @@ final class SwiftVerifiableTests: XCTestCase {
             XCTFail()
         } catch VerificationError.rulesBroken(let rules) {
             XCTAssertEqual(rules.first!.path, ["amount"])
-            XCTAssertEqual(rules.first!.reason, "Expected positive integer")
+            XCTAssertEqual(rules.first!.reason, "-2 is not a positive integer")
         } catch {
             XCTFail()
         }
@@ -107,9 +118,9 @@ final class SwiftVerifiableTests: XCTestCase {
         } catch VerificationError.rulesBroken(let rules) {
             XCTAssertEqual(rules.count, 2)
             XCTAssertEqual(rules[0].path, ["amount"])
-            XCTAssertEqual(rules[0].reason, "Expected positive integer")
+            XCTAssertEqual(rules[0].reason, "-2 is not a positive integer")
             XCTAssertEqual(rules[1].path, ["client", "name"])
-            XCTAssertEqual(rules[1].reason, "Unexpected empty string")
+            XCTAssertEqual(rules[1].reason, "Provided string is empty")
         } catch {
             XCTFail()
         }
@@ -126,7 +137,7 @@ final class SwiftVerifiableTests: XCTestCase {
         } catch VerificationError.rulesBroken(let rules) {
             XCTAssertEqual(rules.count, 1)
             XCTAssertEqual(rules.first!.path, ["name"])
-            XCTAssertEqual(rules.first!.reason, "Unexpected empty string")
+            XCTAssertEqual(rules.first!.reason, "Provided string is empty")
         } catch {
             XCTFail()
         }
@@ -146,8 +157,8 @@ final class SwiftVerifiableTests: XCTestCase {
             XCTAssertEqual(rules.count, 2)
             XCTAssertEqual(rules[0].path, ["amount"])
             XCTAssertEqual(rules[1].path, ["amount"])
-            XCTAssertEqual(rules[0].reason, "Expected positive integer")
-            XCTAssertEqual(rules[1].reason, "Expected positive integer")
+            XCTAssertEqual(rules[0].reason, "-1 is not a positive integer")
+            XCTAssertEqual(rules[1].reason, "-2 is not a positive integer")
         } catch {
             XCTFail()
         }
@@ -168,7 +179,7 @@ final class SwiftVerifiableTests: XCTestCase {
         } catch VerificationError.rulesBroken(let rules) {
             XCTAssertEqual(rules.count, 1)
             XCTAssertEqual(rules.first!.path, ["name"])
-            XCTAssertEqual(rules.first!.reason, "Unexpected empty string")
+            XCTAssertEqual(rules.first!.reason, "Provided string is empty")
         } catch {
             XCTFail()
         }
@@ -178,6 +189,7 @@ final class SwiftVerifiableTests: XCTestCase {
         ("test_propMarkedShouldCannotHoldInvalidValues", test_propMarkedShouldCannotHoldInvalidValues),
 		("test_propMarkedShouldCanHoldValidValues", test_propMarkedShouldCanHoldValidValues),
         ("test_propMarkedMustCanHoldValidValues", test_propMarkedMustCanHoldValidValues),
+        ("test_rulesCanBeCombined", test_rulesCanBeCombined),
         ("test_hasReasonWhenFailing", test_hasReasonWhenFailing),
 		("test_validatableAllowsRetrievingRules", test_validatableAllowsRetrievingRules),
 		("test_validatableAllowsRetrievingNestedRules", test_validatableAllowsRetrievingNestedRules),

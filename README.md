@@ -67,6 +67,18 @@ let bePositiveInteger: Rule<Int> = Rule { (int, test) in
 }
 ```
 
+Rules can be combined:
+
+```swift
+@Must(.beEmptyString | .beOfLength(3))
+```
+
+Or negated (in that case, the failure reason will be less explicit):
+
+```swift
+@Must(.not(.beEmptyString)) // use .beNotEmptyString instead
+```
+
 ### `Should`
 
 Wrapped fields marked with `@Should(rule)` are optionals. They cannot contain values that do not abide by the associated rule. 

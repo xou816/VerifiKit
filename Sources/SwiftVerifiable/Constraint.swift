@@ -9,7 +9,7 @@ protocol Constraint {
 
 extension Constraint {
     func runTest<T>(for value: T) -> Bool {
-        let test = ComplianceTest(pass: self.pass, fail: self.fail)
+        let test = SingleTest(pass: self.pass, fail: self.fail)
         return getCastRule()?.test(value, test) ?? false
     }
 }

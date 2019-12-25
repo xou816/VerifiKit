@@ -23,13 +23,6 @@ struct Failure {
 
 class Verification {
 
-    enum Result {
-        case pass
-        case fail(Failure)
-    }
-
-
-    let uuid = UUID().uuidString
     var failures = [Failure]()
 
     var failing: Bool {

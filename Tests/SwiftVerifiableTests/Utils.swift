@@ -4,7 +4,7 @@ import XCTest
 extension Rule {
 
     func assertFails(for value: T, with expectedReason: String? = nil) {
-        _ = test(value, ComplianceTest(pass: {
+        _ = test(value, SingleTest(pass: {
             XCTFail()
             return true
         }, fail: { reason in
@@ -16,7 +16,7 @@ extension Rule {
     }
 
     func assertPasses(for value: T) {
-        _ = test(value, ComplianceTest(pass: {
+        _ = test(value, SingleTest(pass: {
             return true
         }, fail: { reason in
             XCTFail()
