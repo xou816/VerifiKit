@@ -1,7 +1,7 @@
 import XCTest
 
-import SwiftVerifiableTests
+import VerifiKitTests
 
 var tests = [XCTestCaseEntry]()
-tests += SwiftVerifiableTests.allTests()
+tests += VerifiKitTests.allTests()
 XCTMain(tests)

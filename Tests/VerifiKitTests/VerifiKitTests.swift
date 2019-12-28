@@ -1,5 +1,5 @@
 import XCTest
-@testable import SwiftVerifiable
+@testable import VerifiKit
 
 fileprivate struct Test {
     
@@ -7,7 +7,7 @@ fileprivate struct Test {
 
         @Should(.notBeEmptyString)
         var name: String?
-        
+
         init() {}
     }
     
@@ -35,7 +35,7 @@ fileprivate struct Test {
 }
 
 
-final class SwiftVerifiableTests: XCTestCase {
+final class VerifiKitTests: XCTestCase {
 
 	func test_propMarkedShouldCannotHoldInvalidValues() {
         let client = Test.Client()
@@ -81,7 +81,7 @@ final class SwiftVerifiableTests: XCTestCase {
         rule.assertFails(for: true, with: "failure reason")
     }
 
-	func test_validatableAllowsRetrievingRules() {
+	func test_verifiableAllowsRetrievingRules() {
 		let basket = Test.Basket()
 		if let rule: Rule<Int> = basket.getRuleFor(key: "amount") {
             rule.assertFails(for: -2)
@@ -89,7 +89,7 @@ final class SwiftVerifiableTests: XCTestCase {
 		}
 	}
 
-	func test_validatableAllowsRetrievingNestedRules() {
+	func test_verifiableAllowsRetrievingNestedRules() {
 		let basket = Test.Basket()
 		if let rule: Rule<String> = basket.getRuleFor(path: ["client", "name"]) {
             rule.assertFails(for: "")
@@ -191,16 +191,12 @@ final class SwiftVerifiableTests: XCTestCase {
         ("test_propMarkedMustCanHoldValidValues", test_propMarkedMustCanHoldValidValues),
         ("test_rulesCanBeCombined", test_rulesCanBeCombined),
         ("test_hasReasonWhenFailing", test_hasReasonWhenFailing),
-		("test_validatableAllowsRetrievingRules", test_validatableAllowsRetrievingRules),
-		("test_validatableAllowsRetrievingNestedRules", test_validatableAllowsRetrievingNestedRules),
+		("test_verifiableAllowsRetrievingRules", test_verifiableAllowsRetrievingRules),
+		("test_verifiableAllowsRetrievingNestedRules", test_verifiableAllowsRetrievingNestedRules),
         ("test_decodingInvalidObjectWithMustMarkerThrows", test_decodingInvalidObjectWithMustMarkerThrows),
         ("test_decodingIsRecursive", test_decodingIsRecursive),
         ("test_decodingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict", test_decodingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict),
         ("test_verifyCanBeUsedToTestAssignments", test_verifyCanBeUsedToTestAssignments),
         ("test_verifyingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict", test_verifyingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict)
 	]
-
-    static var _allTests = [
-        ("debug", test_decodingInvalidObjectWithMustMarkerThrows)
-    ]
 }

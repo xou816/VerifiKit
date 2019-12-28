@@ -8,7 +8,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/.build/debug/SwiftVerifiablePackageTests.xctest",
+            "program": "${workspaceFolder}/.build/debug/VerifiKitPackageTests.xctest",
             "args": [],
             "cwd": "${workspaceFolder}"
         }

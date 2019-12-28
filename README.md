@@ -1,4 +1,4 @@
-# SwiftVerifiable
+# VerifiKit
 
 Declarative decodable object validation.
 
@@ -115,6 +115,6 @@ try verify(myObject) {
 
 ### Error handling
 
-A `ValidationError.rulesBroken` is thrown when an invalid assignement is attempted.
+A `VerificationError.rulesBroken` is thrown when an invalid assignement is attempted.
 
 Its associated values `rules` is a list of `Failure`s (stuct with a reason string and a path to the error).

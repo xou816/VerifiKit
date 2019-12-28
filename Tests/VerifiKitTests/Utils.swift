@@ -1,5 +1,5 @@
 import XCTest
-@testable import SwiftVerifiable
+@testable import VerifiKit
 
 extension Rule {
 
