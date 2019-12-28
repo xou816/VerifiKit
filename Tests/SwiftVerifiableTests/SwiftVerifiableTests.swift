@@ -5,7 +5,7 @@ fileprivate struct Test {
     
     struct Client: Verifiable {
 
-        @Should(.beNotEmptyString)
+        @Should(.notBeEmptyString)
         var name: String?
         
         init() {}
@@ -13,7 +13,7 @@ fileprivate struct Test {
     
     struct ClientStrict: Verifiable {
 
-        @Must(.beNotEmptyString)
+        @Must(.notBeEmptyString)
         var name: String
         
         init() {}
@@ -40,7 +40,7 @@ final class SwiftVerifiableTests: XCTestCase {
 	func test_propMarkedShouldCannotHoldInvalidValues() {
         let client = Test.Client()
 		client.name = ""
-        let rule: Rule<String> = .beNotEmptyString
+        let rule: Rule<String> = .notBeEmptyString
         rule.assertFails(for: "")
         XCTAssertNil(client.name)
 	}
@@ -48,7 +48,7 @@ final class SwiftVerifiableTests: XCTestCase {
     func test_propMarkedShouldCanHoldValidValues() {
         let client = Test.Client()
         client.name = "toto"
-        let rule: Rule<String> = .beNotEmptyString
+        let rule: Rule<String> = .notBeEmptyString
         rule.assertPasses(for: "toto")
         XCTAssertEqual(client.name, "toto")
     }
@@ -62,12 +62,12 @@ final class SwiftVerifiableTests: XCTestCase {
     }
 
     func test_rulesCanBeCombined() {
-        let rule: Rule<String> = .beNotBlankString & .beOfLength(3)
+        let rule: Rule<String> = .notBeBlankString & .beOfLength(3)
         rule.assertFails(for: "ab", with: "'ab' is not 3 characters long")
         rule.assertFails(for: "", with: "Provided string is blank")
         rule.assertPasses(for: "abc")
 
-        let ruleInverted: Rule<String> = .beOfLength(3) & .beNotBlankString
+        let ruleInverted: Rule<String> = .beOfLength(3) & .notBeBlankString
         ruleInverted.assertFails(for: "", with: "'' is not 3 characters long")
 
         let rule2: Rule<String> = .beEmptyString | .beOfLength(3)

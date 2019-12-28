@@ -92,20 +92,24 @@ extension Verifiable {
 	}
 }
 
-func verify(_ verifiable: Verifiable, _ block: () -> Void) throws {
+func verify(_ verifiables: Verifiable..., block: () -> Void) throws {
     let verification = Verification()
     let context = VerificationContext(instance: nil, path: [], strict: false, verification: verification)
-    verifiable.prepareForVerification(context: context, path: [])
+    verifiables.forEach {
+		$0.prepareForVerification(context: context, path: [])
+	}
     block()
     if verification.failing {
         throw VerificationError.rulesBroken(rules: verification.failures)
     }
 }
 
-func verifyStrict(_ verifiable: Verifiable, _ block: () -> Void) throws {
+func verifyStrict(_ verifiables: Verifiable..., block: () -> Void) throws {
     let verification = Verification()
     let context = VerificationContext(instance: nil, path: [], strict: true, verification: verification)
-    verifiable.prepareForVerification(context: context, path: [])
+    verifiables.forEach {
+		$0.prepareForVerification(context: context, path: [])
+	}
     block()
     if verification.failing {
         throw VerificationError.rulesBroken(rules: verification.failures)

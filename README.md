@@ -5,7 +5,7 @@ Declarative decodable object validation.
 ```swift
 struct Client: Verifiable {
 
-    @Should(.beNotEmptyString)
+    @Should(.notBeEmptyString)
     var name: String?
     
     init() {}
@@ -76,7 +76,7 @@ Rules can be combined:
 Or negated (in that case, the failure reason will be less explicit):
 
 ```swift
-@Must(.not(.beEmptyString)) // use .beNotEmptyString instead
+@Must(.not(.beEmptyString)) // use .notBeEmptyString instead
 ```
 
 ### `Should`

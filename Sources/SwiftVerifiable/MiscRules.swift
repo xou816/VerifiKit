@@ -4,11 +4,11 @@ fileprivate struct MiscRules {
         int >= 0 ? test.pass() : test.fail("\(int) is not a positive integer")
     }
     
-    static let beNotEmptyString: Rule<String> = Rule { (str, test) in
+    static let notBeEmptyString: Rule<String> = Rule { (str, test) in
         str.isEmpty ? test.fail("Provided string is empty") : test.pass()
     }
 
-    static let beNotBlankString: Rule<String> = Rule { (str, test) in
+    static let notBeBlankString: Rule<String> = Rule { (str, test) in
         str.trimmingCharacters(in: .whitespaces).isEmpty ? test.fail("Provided string is blank") : test.pass()
     }
 
@@ -29,8 +29,8 @@ fileprivate struct MiscRules {
 
 extension Rule {
     static var bePositiveInteger: Rule<Int> { MiscRules.bePositiveInteger }
-    static var beNotEmptyString: Rule<String> { MiscRules.beNotEmptyString }
-    static var beNotBlankString: Rule<String> { MiscRules.beNotBlankString }
+    static var notBeEmptyString: Rule<String> { MiscRules.notBeEmptyString }
+    static var notBeBlankString: Rule<String> { MiscRules.notBeBlankString }
     static var beEmptyString: Rule<String> { MiscRules.beEmptyString }
     static var beBlankString: Rule<String> { MiscRules.beBlankString }
     static func beOfLength(_ len: Int) -> Rule<String> { MiscRules.beOfLength(len) }
