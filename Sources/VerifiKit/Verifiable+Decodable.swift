@@ -4,9 +4,14 @@ extension CodingUserInfoKey {
     static let verificationContext = CodingUserInfoKey(rawValue: "verificationContext")!
 }
 
-extension JSONDecoder {
+protocol CompatibleDecoder: class {
+    var userInfo: [CodingUserInfoKey : Any] { get set }
+    func decode<T>(_ type: T.Type, from data: Data) throws -> T where T : Decodable
+}
 
-    func decode<T>(verify type: T.Type, from data: Data) throws -> T where T: Verifiable {
+extension CompatibleDecoder {
+
+    public func decode<T>(verify type: T.Type, from data: Data) throws -> T where T: Verifiable {
         let verification = Verification()
         self.userInfo[.verificationContext] = VerificationContext(instance: T(), path: [], strict: false, verification: verification)
         let result = try self.decode(type, from: data)
@@ -16,7 +21,7 @@ extension JSONDecoder {
         return result
     }
     
-    func decode<T>(verifyStrict type: T.Type, from data: Data) throws -> T where T: Verifiable {
+    public func decode<T>(verifyStrict type: T.Type, from data: Data) throws -> T where T: Verifiable {
         let verification = Verification()
         self.userInfo[.verificationContext] = VerificationContext(instance: T(), path: [], strict: true, verification: verification)
         let result = try self.decode(type, from: data)
@@ -45,3 +50,6 @@ extension Decoder {
         return (rule, value)
     }
 }
+
+extension JSONDecoder: CompatibleDecoder {}
+extension PropertyListDecoder: CompatibleDecoder {}
