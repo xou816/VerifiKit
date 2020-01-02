@@ -103,7 +103,7 @@ final class VerifiKitTests: XCTestCase {
             _ = try JSONDecoder().decode(verify: Test.Basket.self, from: basketInvalid)
             XCTFail()
         } catch VerificationError.rulesBroken(let rules) {
-            XCTAssertEqual(rules.first!.path, ["amount"])
+            XCTAssertEqual(rules.first!.path, "amount")
             XCTAssertEqual(rules.first!.reason, "-2 is not a positive integer")
         } catch {
             XCTFail()
@@ -117,9 +117,9 @@ final class VerifiKitTests: XCTestCase {
             XCTFail()
         } catch VerificationError.rulesBroken(let rules) {
             XCTAssertEqual(rules.count, 2)
-            XCTAssertEqual(rules[0].path, ["amount"])
+            XCTAssertEqual(rules[0].path, "amount")
             XCTAssertEqual(rules[0].reason, "-2 is not a positive integer")
-            XCTAssertEqual(rules[1].path, ["client", "name"])
+            XCTAssertEqual(rules[1].path, "client.name")
             XCTAssertEqual(rules[1].reason, "Provided string is empty")
         } catch {
             XCTFail()
@@ -136,7 +136,7 @@ final class VerifiKitTests: XCTestCase {
             XCTFail()
         } catch VerificationError.rulesBroken(let rules) {
             XCTAssertEqual(rules.count, 1)
-            XCTAssertEqual(rules.first!.path, ["name"])
+            XCTAssertEqual(rules.first!.path, "name")
             XCTAssertEqual(rules.first!.reason, "Provided string is empty")
         } catch {
             XCTFail()
@@ -155,8 +155,8 @@ final class VerifiKitTests: XCTestCase {
             XCTFail()
         } catch VerificationError.rulesBroken(let rules) {
             XCTAssertEqual(rules.count, 2)
-            XCTAssertEqual(rules[0].path, ["amount"])
-            XCTAssertEqual(rules[1].path, ["amount"])
+            XCTAssertEqual(rules[0].path, "amount")
+            XCTAssertEqual(rules[1].path, "amount")
             XCTAssertEqual(rules[0].reason, "-1 is not a positive integer")
             XCTAssertEqual(rules[1].reason, "-2 is not a positive integer")
         } catch {
@@ -178,7 +178,7 @@ final class VerifiKitTests: XCTestCase {
            try verifyStrict(client) { client.name = "" }
         } catch VerificationError.rulesBroken(let rules) {
             XCTAssertEqual(rules.count, 1)
-            XCTAssertEqual(rules.first!.path, ["name"])
+            XCTAssertEqual(rules.first!.path, "name")
             XCTAssertEqual(rules.first!.reason, "Provided string is empty")
         } catch {
             XCTFail()

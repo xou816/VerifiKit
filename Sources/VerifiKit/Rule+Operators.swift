@@ -20,7 +20,7 @@ extension TestProxy {
 
 extension Rule {
 
-    static func not<T>(_ rule: Rule<T>) -> Rule<T> {
+    public static func not<T>(_ rule: Rule<T>) -> Rule<T> {
         return Rule<T> { (t, test) in
             let proxy = TestProxy(wrap: test)
             return proxy.notPass(value: t, rule)
@@ -29,14 +29,14 @@ extension Rule {
 
 }
 
-func &<T>(_ lhs: Rule<T>, _ rhs: Rule<T>) -> Rule<T> {
+public func &<T>(_ lhs: Rule<T>, _ rhs: Rule<T>) -> Rule<T> {
     return Rule { (t, test) in
         let proxy = TestProxy(wrap: test)
         return proxy.allPass(value: t, lhs, rhs)
     }
 }
 
-func |<T>(_ lhs: Rule<T>, _ rhs: Rule<T>) -> Rule<T> {
+public func |<T>(_ lhs: Rule<T>, _ rhs: Rule<T>) -> Rule<T> {
     return Rule { (t, test) in
         let proxy = TestProxy(wrap: test)
         return proxy.anyPass(value: t, lhs, rhs)

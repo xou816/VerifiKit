@@ -7,9 +7,19 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug",
+            "name": "Debug (Linux)",
             "program": "${workspaceFolder}/.build/debug/VerifiKitPackageTests.xctest",
             "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug (Mac OS)",
+            "program": "/Applications/Xcode.app/Contents/Developer/usr/bin/xctest",
+            "args": [
+                "${workspaceFolder}/.build/debug/VerifiKitPackageTests.xctest"
+            ],
             "cwd": "${workspaceFolder}"
         }
     ]

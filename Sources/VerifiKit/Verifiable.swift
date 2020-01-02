@@ -19,7 +19,7 @@ extension Path {
     }
 }
 
-protocol Verifiable: Decodable {
+public protocol Verifiable: Decodable {
 	init()
 }
 
@@ -92,7 +92,7 @@ extension Verifiable {
 	}
 }
 
-func verify(_ verifiables: Verifiable..., block: () -> Void) throws {
+public func verify(_ verifiables: Verifiable..., block: () -> Void) throws {
     let verification = Verification()
     let context = VerificationContext(instance: nil, path: [], strict: false, verification: verification)
     verifiables.forEach {
@@ -104,7 +104,7 @@ func verify(_ verifiables: Verifiable..., block: () -> Void) throws {
     }
 }
 
-func verifyStrict(_ verifiables: Verifiable..., block: () -> Void) throws {
+public func verifyStrict(_ verifiables: Verifiable..., block: () -> Void) throws {
     let verification = Verification()
     let context = VerificationContext(instance: nil, path: [], strict: true, verification: verification)
     verifiables.forEach {

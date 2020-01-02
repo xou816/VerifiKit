@@ -16,9 +16,9 @@ struct VerificationContext {
     }
 }
 
-struct Failure {
-    let path: Path
-    let reason: String
+public struct Failure {
+    public let path: String
+    public let reason: String
 }
 
 class Verification {
@@ -38,11 +38,11 @@ class Verification {
     func passOne() {}
 
     func failOne(path: Path, reason: String) {
-        failures.append(Failure(path: path, reason: reason))
+        failures.append(Failure(path: path.pretty, reason: reason))
     }
 }
 
-enum VerificationError: Error {
+public enum VerificationError: Error {
     case contextError
     case rulesBroken(rules: [Failure])
 }

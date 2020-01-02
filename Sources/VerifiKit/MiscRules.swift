@@ -28,10 +28,10 @@ fileprivate struct MiscRules {
 }
 
 extension Rule {
-    static var bePositiveInteger: Rule<Int> { MiscRules.bePositiveInteger }
-    static var notBeEmptyString: Rule<String> { MiscRules.notBeEmptyString }
-    static var notBeBlankString: Rule<String> { MiscRules.notBeBlankString }
-    static var beEmptyString: Rule<String> { MiscRules.beEmptyString }
-    static var beBlankString: Rule<String> { MiscRules.beBlankString }
-    static func beOfLength(_ len: Int) -> Rule<String> { MiscRules.beOfLength(len) }
+    public static var bePositiveInteger: Rule<Int> { MiscRules.bePositiveInteger }
+    public static var notBeEmptyString: Rule<String> { MiscRules.notBeEmptyString }
+    public static var notBeBlankString: Rule<String> { MiscRules.notBeBlankString }
+    public static var beEmptyString: Rule<String> { MiscRules.beEmptyString }
+    public static var beBlankString: Rule<String> { MiscRules.beBlankString }
+    public static func beOfLength(_ len: Int) -> Rule<String> { MiscRules.beOfLength(len) }
 }

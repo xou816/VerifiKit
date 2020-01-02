@@ -4,7 +4,7 @@ extension CodingUserInfoKey {
     static let verificationContext = CodingUserInfoKey(rawValue: "verificationContext")!
 }
 
-protocol CompatibleDecoder: class {
+public protocol CompatibleDecoder: class {
     var userInfo: [CodingUserInfoKey : Any] { get set }
     func decode<T>(_ type: T.Type, from data: Data) throws -> T where T : Decodable
 }

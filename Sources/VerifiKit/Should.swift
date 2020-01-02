@@ -1,5 +1,5 @@
 @propertyWrapper
-class Should<T>: Constraint, Decodable where T: Decodable {
+public class Should<T>: Constraint, Decodable where T: Decodable {
     
     let rule: Rule<T>
 
@@ -19,7 +19,7 @@ class Should<T>: Constraint, Decodable where T: Decodable {
         return false
     }}
     
-    init(_ rule: Rule<T>) {
+    public init(_ rule: Rule<T>) {
         self.rule = rule
     }
     
@@ -28,7 +28,7 @@ class Should<T>: Constraint, Decodable where T: Decodable {
     }
 
     private var wrapped: T? = nil
-    var wrappedValue: T? {
+    public var wrappedValue: T? {
         get {
             wrapped
         }
@@ -43,7 +43,7 @@ class Should<T>: Constraint, Decodable where T: Decodable {
     
     // MARK: - Decodable
     
-    convenience required init(from decoder: Decoder) throws {
+    public convenience required init(from decoder: Decoder) throws {
         let context = try decoder.getVerificationContext()
         let (rule, value) = try decoder.decodeConstrained(T.self, context: context)
         self.init(rule)
