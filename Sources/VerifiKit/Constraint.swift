@@ -1,4 +1,4 @@
-protocol Constraint {
+protocol Constraint: class {
 
     func getCastRule<T>() -> Rule<T>?
 

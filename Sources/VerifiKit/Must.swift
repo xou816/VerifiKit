@@ -17,6 +17,11 @@ public class Must<T>: Constraint, Decodable where T: Decodable {
     public init(_ rule: Rule<T>) {
         self.rule = rule
     }
+
+    public init(wrappedValue: T, _ rule: Rule<T>) {
+        self.rule = rule
+        self.wrappedValue = wrappedValue
+    }
     
     func getCastRule<U>() -> Rule<U>? {
         return rule as? Rule<U>

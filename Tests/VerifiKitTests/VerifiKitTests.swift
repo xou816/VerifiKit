@@ -14,7 +14,7 @@ fileprivate struct Test {
     struct ClientStrict: Verifiable {
 
         @Must(.notBeEmptyString)
-        var name: String
+        var name: String = "default"
         
         init() {}
     }

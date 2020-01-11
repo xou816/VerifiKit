@@ -69,8 +69,7 @@ extension Verifiable {
 			child.prepareForVerification(context: context.rebase(path: path), path: path) 
 		}
         constraints.forEach { (name, constraint) in
-			var mutableConstraint = constraint
-            mutableConstraint.context = context.rebase(path: path + [name])
+			constraint.context = context.rebase(path: path + [name])
         }
     }
 	
