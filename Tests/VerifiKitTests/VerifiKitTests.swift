@@ -32,6 +32,15 @@ fileprivate struct Test {
             self.version = "1"
         }
     }
+
+    struct CodableThing: Verifiable, Encodable {
+        
+        @Must(.notBeBlankString)
+        var field: String = "value"
+
+        @Should(.notBeBlankString)
+        var field2: String = "value2"
+    }
 }
 
 
@@ -185,6 +194,22 @@ final class VerifiKitTests: XCTestCase {
         }
     }
 
+    func test_regexRule() {
+        let rule: Rule<String> = .matchRegex(#"[0-9]+"#)
+        rule.assertPasses(for: "123")
+        rule.assertFails(for: "az", with: "'az' does not match expression")
+        let isoDay: Rule<String> = .matchRegex(#"\d{4}-\d{2}-\d{2}"#, failMessage: "'%@' is not a valid day")
+        isoDay.assertPasses(for: "2020-01-01")
+        isoDay.assertFails(for: "2020", with: "'2020' is not a valid day")
+    }
+
+    func test_mustAndShouldAreEncodable() {
+        let test = Test.CodableThing()
+        let encoder = JSONEncoder()
+        let data = try? String(data: encoder.encode(test), encoding: .utf8)
+        XCTAssertEqual(data, #"{"field":"value","field2":"value2"}"#)
+    }
+
 	static var allTests = [
         ("test_propMarkedShouldCannotHoldInvalidValues", test_propMarkedShouldCannotHoldInvalidValues),
 		("test_propMarkedShouldCanHoldValidValues", test_propMarkedShouldCanHoldValidValues),
@@ -197,6 +222,8 @@ final class VerifiKitTests: XCTestCase {
         ("test_decodingIsRecursive", test_decodingIsRecursive),
         ("test_decodingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict", test_decodingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict),
         ("test_verifyCanBeUsedToTestAssignments", test_verifyCanBeUsedToTestAssignments),
-        ("test_verifyingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict", test_verifyingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict)
+        ("test_verifyingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict", test_verifyingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict),
+        ("test_regexRule", test_regexRule),
+        ("test_mustAndShouldAreEncodable", test_mustAndShouldAreEncodable)
 	]
 }

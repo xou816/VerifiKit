@@ -25,6 +25,18 @@ fileprivate struct MiscRules {
             str.count == len ? test.pass() : test.fail("'\(str)' is not \(len) characters long")
         }
     }
+
+    static func matchRegex(_ regex: String, failMessage: String? = nil) -> Rule<String> {
+        return Rule { (str, test) in
+            let range = str.range(of: regex, options: .regularExpression)
+            if case .some = range {
+                return test.pass()
+            } else {
+                let failMessage = failMessage.map { String(format: $0, arguments: [str]) }
+                return test.fail(failMessage ?? "'\(str)' does not match expression")
+            }
+        }
+    }
 }
 
 extension Rule {
@@ -34,4 +46,5 @@ extension Rule {
     public static var beEmptyString: Rule<String> { MiscRules.beEmptyString }
     public static var beBlankString: Rule<String> { MiscRules.beBlankString }
     public static func beOfLength(_ len: Int) -> Rule<String> { MiscRules.beOfLength(len) }
+    public static func matchRegex(_ regex: String, failMessage: String? = nil) -> Rule<String> { MiscRules.matchRegex(regex, failMessage: failMessage) }
 }

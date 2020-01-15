@@ -57,3 +57,9 @@ public class Should<T>: Constraint, Decodable where T: Decodable {
     }
 }
 
+extension Should: Encodable where T: Encodable {
+
+    public func encode(to encoder: Encoder) throws {
+       try wrappedValue.encode(to: encoder)
+    }
+}

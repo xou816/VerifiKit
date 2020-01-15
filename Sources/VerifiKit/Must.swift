@@ -49,3 +49,10 @@ public class Must<T>: Constraint, Decodable where T: Decodable {
         self.wrappedValue = value
     }
 }
+
+extension Must: Encodable where T: Encodable {
+
+    public func encode(to encoder: Encoder) throws {
+       try wrappedValue.encode(to: encoder)
+    }
+}
