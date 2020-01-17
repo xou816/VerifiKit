@@ -12,14 +12,6 @@ fileprivate struct MiscRules {
         str.trimmingCharacters(in: .whitespaces).isEmpty ? test.fail("Provided string is blank") : test.pass()
     }
 
-    static let beEmptyString: Rule<String> = Rule { (str, test) in
-        str.isEmpty ? test.pass() : test.fail("Provided string is not empty")
-    }
-
-    static let beBlankString: Rule<String> = Rule { (str, test) in
-        str.trimmingCharacters(in: .whitespaces).isEmpty ? test.pass() : test.fail("Provided string is not blank")
-    }
-
     static func beOfLength(_ len: Int) -> Rule<String> {
         return Rule { (str, test) in 
             str.count == len ? test.pass() : test.fail("'\(str)' is not \(len) characters long")
@@ -43,8 +35,8 @@ extension Rule {
     public static var bePositiveInteger: Rule<Int> { MiscRules.bePositiveInteger }
     public static var notBeEmptyString: Rule<String> { MiscRules.notBeEmptyString }
     public static var notBeBlankString: Rule<String> { MiscRules.notBeBlankString }
-    public static var beEmptyString: Rule<String> { MiscRules.beEmptyString }
-    public static var beBlankString: Rule<String> { MiscRules.beBlankString }
+    public static var beEmptyString: Rule<String> { .not(MiscRules.notBeEmptyString, failMessage: "Provided string is not empty") }
+    public static var beBlankString: Rule<String> { .not(MiscRules.notBeBlankString, failMessage: "Provided string is not blank") }
     public static func beOfLength(_ len: Int) -> Rule<String> { MiscRules.beOfLength(len) }
     public static func matchRegex(_ regex: String, failMessage: String? = nil) -> Rule<String> { MiscRules.matchRegex(regex, failMessage: failMessage) }
 }
