@@ -14,7 +14,7 @@ extension TestProxy {
 
     func notPass<T>(value: T, rule: Rule<T>, failMessage: String? = nil) -> Bool {
         let result = rule.test(value, self)
-        let failMessage = failMessage.map { String(format: $0, arguments: ["\(value)"]) }
+        let failMessage = failMessage.map { String(format: $0, sub1: "\(value)") }
         return result ? actualTest.fail(failMessage ?? "Expected test not to pass") : actualTest.pass()
     }
 }

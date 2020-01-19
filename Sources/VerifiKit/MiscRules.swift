@@ -24,7 +24,7 @@ fileprivate struct MiscRules {
             if case .some = range {
                 return test.pass()
             } else {
-                let failMessage = failMessage.map { String(format: $0, arguments: [str]) }
+                let failMessage = failMessage.map { String(format: $0, sub1: str) }
                 return test.fail(failMessage ?? "'\(str)' does not match expression")
             }
         }
