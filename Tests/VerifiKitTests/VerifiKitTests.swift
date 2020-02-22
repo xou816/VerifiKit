@@ -46,13 +46,13 @@ fileprivate struct Test {
 
 final class VerifiKitTests: XCTestCase {
 
-	func test_propMarkedShouldCannotHoldInvalidValues() {
+    func test_propMarkedShouldCannotHoldInvalidValues() {
         let client = Test.Client()
-		client.name = ""
+        client.name = ""
         let rule: Rule<String> = .notBeEmptyString
         rule.assertFails(for: "")
         XCTAssertNil(client.name)
-	}
+    }
     
     func test_propMarkedShouldCanHoldValidValues() {
         let client = Test.Client()
@@ -90,21 +90,21 @@ final class VerifiKitTests: XCTestCase {
         rule.assertFails(for: true, with: "failure reason")
     }
 
-	func test_verifiableAllowsRetrievingRules() {
-		let basket = Test.Basket()
-		if let rule: Rule<Int> = basket.getRuleFor(key: "amount") {
+    func test_verifiableAllowsRetrievingRules() {
+        let basket = Test.Basket()
+        if let rule: Rule<Int> = basket.getRuleFor(key: "amount") {
             rule.assertFails(for: -2)
             rule.assertPasses(for: 2)
-		}
-	}
+        }
+    }
 
-	func test_verifiableAllowsRetrievingNestedRules() {
-		let basket = Test.Basket()
-		if let rule: Rule<String> = basket.getRuleFor(path: ["client", "name"]) {
+    func test_verifiableAllowsRetrievingNestedRules() {
+        let basket = Test.Basket()
+        if let rule: Rule<String> = basket.getRuleFor(path: ["client", "name"]) {
             rule.assertFails(for: "")
             rule.assertPasses(for: "foo")
-		}
-	}
+        }
+    }
     
     func test_decodingInvalidObjectWithMustMarkerThrows() {
         let basketInvalid = #"{"amount": -2, "version": "1", "client": {"name": "toto"}}"#.data(using: .utf8)!
@@ -210,14 +210,14 @@ final class VerifiKitTests: XCTestCase {
         XCTAssertNotNil(data)
     }
 
-	static var allTests = [
+    static var allTests = [
         ("test_propMarkedShouldCannotHoldInvalidValues", test_propMarkedShouldCannotHoldInvalidValues),
-		("test_propMarkedShouldCanHoldValidValues", test_propMarkedShouldCanHoldValidValues),
+        ("test_propMarkedShouldCanHoldValidValues", test_propMarkedShouldCanHoldValidValues),
         ("test_propMarkedMustCanHoldValidValues", test_propMarkedMustCanHoldValidValues),
         ("test_rulesCanBeCombined", test_rulesCanBeCombined),
         ("test_hasReasonWhenFailing", test_hasReasonWhenFailing),
-		("test_verifiableAllowsRetrievingRules", test_verifiableAllowsRetrievingRules),
-		("test_verifiableAllowsRetrievingNestedRules", test_verifiableAllowsRetrievingNestedRules),
+        ("test_verifiableAllowsRetrievingRules", test_verifiableAllowsRetrievingRules),
+        ("test_verifiableAllowsRetrievingNestedRules", test_verifiableAllowsRetrievingNestedRules),
         ("test_decodingInvalidObjectWithMustMarkerThrows", test_decodingInvalidObjectWithMustMarkerThrows),
         ("test_decodingIsRecursive", test_decodingIsRecursive),
         ("test_decodingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict", test_decodingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict),
@@ -225,5 +225,5 @@ final class VerifiKitTests: XCTestCase {
         ("test_verifyingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict", test_verifyingInvalidObjectWithShouldMarkerDoesNotThrowUnlessStrict),
         ("test_regexRule", test_regexRule),
         ("test_mustAndShouldAreEncodable", test_mustAndShouldAreEncodable)
-	]
+    ]
 }

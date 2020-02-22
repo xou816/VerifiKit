@@ -1,0 +1,5 @@
+services:
+    - docker
+
+script:
+    - docker run -v $TRAVIS_BUILD_DIR:/app swift:5.1 bash -c 'cd /app && swift test' 
