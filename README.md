@@ -1,4 +1,4 @@
-# VerifiKit
+# VerifiKit [![Build Status](https://travis-ci.org/xou816/VerifiKit.svg?branch=master)](https://travis-ci.org/xou816/VerifiKit)
 
 Declarative decodable object validation.
 
@@ -78,6 +78,9 @@ Or negated (in that case, the failure reason will be less explicit):
 ```swift
 @Must(.not(.beEmptyString)) // use .notBeEmptyString instead
 ```
+To benefit from a nice, short syntax similar to that of the default set of rules, you should either:
+- make your rules global functions
+- make a static extension to `Rule` 
 
 ### `Should`
 
