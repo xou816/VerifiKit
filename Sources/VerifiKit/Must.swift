@@ -1,5 +1,5 @@
 @propertyWrapper
-public class Must<T>: Constraint, Decodable where T: Decodable {
+public final class Must<T>: Constraint, Decodable where T: Decodable {
     
     let rule: Rule<T>
     var context: VerificationContext = .empty
@@ -41,10 +41,10 @@ public class Must<T>: Constraint, Decodable where T: Decodable {
     
     // MARK: - Decodable
     
-    public convenience required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let context = try decoder.getVerificationContext()
         let (rule, value) = try decoder.decodeConstrained(T.self, context: context)
-        self.init(rule)
+        self.rule = rule
         self.context = context
         self.wrappedValue = value
     }

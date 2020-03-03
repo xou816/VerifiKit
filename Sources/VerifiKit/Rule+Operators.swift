@@ -12,20 +12,24 @@ extension TestProxy {
         return result ? actualTest.pass() : actualTest.fail(reason)
     }
 
-    func notPass<T>(value: T, rule: Rule<T>, failMessage: String? = nil) -> Bool {
+    func notPass<T>(value: T, rule: Rule<T>, failMessage: ((String) -> String)? = nil) -> Bool {
         let result = rule.test(value, self)
-        let failMessage = failMessage.map { String(format: $0, sub1: "\(value)") }
+        let failMessage = failMessage.map { $0("\(value)") }
         return result ? actualTest.fail(failMessage ?? "Expected test not to pass") : actualTest.pass()
     }
 }
 
 extension Rule {
 
-    public static func not<T>(_ rule: Rule<T>, failMessage: String? = nil) -> Rule<T> {
+    public static func not<T>(_ rule: Rule<T>, failMessage: ((String) -> String)? = nil) -> Rule<T> {
         return Rule<T> { (t, test) in
             let proxy = TestProxy(wrap: test)
             return proxy.notPass(value: t, rule: rule, failMessage: failMessage)
         }
+    }
+
+    public static func not<T>(_ rule: Rule<T>, failMessage: String) -> Rule<T> {
+        return not(rule, failMessage: {_ in failMessage})
     }
 
 }

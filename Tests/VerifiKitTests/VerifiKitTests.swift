@@ -198,7 +198,7 @@ final class VerifiKitTests: XCTestCase {
         let rule: Rule<String> = .matchRegex(#"[0-9]+"#)
         rule.assertPasses(for: "123")
         rule.assertFails(for: "az", with: "'az' does not match expression")
-        let isoDay: Rule<String> = .matchRegex(#"\d{4}-\d{2}-\d{2}"#, failMessage: "'%s' is not a valid day")
+        let isoDay: Rule<String> = .matchRegex(#"\d{4}-\d{2}-\d{2}"#, failMessage: {"'\($0)' is not a valid day"})
         isoDay.assertPasses(for: "2020-01-01")
         isoDay.assertFails(for: "2020", with: "'2020' is not a valid day")
     }

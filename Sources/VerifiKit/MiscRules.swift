@@ -18,13 +18,13 @@ fileprivate struct MiscRules {
         }
     }
 
-    static func matchRegex(_ regex: String, failMessage: String? = nil) -> Rule<String> {
+    static func matchRegex(_ regex: String, failMessage: ((String) -> String)? = nil) -> Rule<String> {
         return Rule { (str, test) in
             let range = str.range(of: regex, options: .regularExpression)
             if case .some = range {
                 return test.pass()
             } else {
-                let failMessage = failMessage.map { String(format: $0, sub1: str) }
+                let failMessage = failMessage.map { $0(str) }
                 return test.fail(failMessage ?? "'\(str)' does not match expression")
             }
         }
@@ -38,5 +38,6 @@ extension Rule {
     public static var beEmptyString: Rule<String> { .not(MiscRules.notBeEmptyString, failMessage: "Provided string is not empty") }
     public static var beBlankString: Rule<String> { .not(MiscRules.notBeBlankString, failMessage: "Provided string is not blank") }
     public static func beOfLength(_ len: Int) -> Rule<String> { MiscRules.beOfLength(len) }
-    public static func matchRegex(_ regex: String, failMessage: String? = nil) -> Rule<String> { MiscRules.matchRegex(regex, failMessage: failMessage) }
+    public static func matchRegex(_ regex: String, failMessage: ((String) -> String)? = nil) -> Rule<String> { MiscRules.matchRegex(regex, failMessage: failMessage) }
+    public static func matchRegex(_ regex: String, failMessage: String) -> Rule<String> { MiscRules.matchRegex(regex, failMessage: {_ in failMessage}) }
 }

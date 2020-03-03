@@ -50,11 +50,3 @@ public struct Rule<T> {
         return Rule { (_, test) in test.fail(reason) } as! Rule<T>
     }
 }
-
-extension String {
-    init(format: String, sub1: String) {
-        self = sub1.withCString { cstring in
-            String(format: format, arguments: [cstring])
-        }
-    }
-}
